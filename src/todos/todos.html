@@ -1,0 +1,79 @@
+<div class="todo todos">
+	<a ui-sref="about" class="nav-link">About</a>
+	<h2>this page is todo app</h2>
+	<div class="todos__formgroup text-center">
+		<form ng-submit="createTask()">
+	 	 <div class="form-group">
+	  	  		<label >what u need to do</label>
+	    		<input type="text" class="form-control" ng-model="createTaskInput">
+	 		 </div>
+	  
+	  		<button type="submit" class="btn btn-success todos__submit-btn">Submit</button>
+		</form>
+	</div>
+	
+	<table class="table">
+	    <thead>
+	      <tr>
+	        <th>Completed ?</th>
+	        <th>Task</th>
+	        <th>Action</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <tr ng-repeat="todo in todos">
+	        	<td>
+	        		<input type="checkbox"
+	        		class="todos__checkbox"
+	        		ng-checked="todo.isCompleted"
+	        		ng-click="onCompletedClick(todo)"/>
+	        		<span class="todo__task">{{todo.isCompleted}}</span>
+	        	</td>
+	        	</td>
+	        	<td>
+	        		<div ng-if="!todo.isEditing">
+		        		<span 
+		        			class="todo__task"
+		        			ng-class="{'todo__task-completed':todo.isCompleted}">
+		        			{{todo.task}}
+		        		</span>
+	        		</div>
+	        		<div ng-if="todo.isEditing">
+		        		<input type="text" class="form-control" 
+		        		ng-value="todo.task" ng-model="todo.updatedTask" />
+	        		</div>
+	        	</td>
+	        	<td>
+	        		<div>
+		        		<button type="submit" 
+		        			ng-if="!todo.isEditing"
+		        			class="btn btn-info"
+		        			ng-click="onEditClick(todo)">
+		        			Edit
+		        		</button>
+		        		<button type="submit"
+		        			ng-if="!todo.isEditing"
+		        			class="btn btn-danger"
+		        			ng-click="onDeleteClick(todo)">
+		        			Delete
+		        		</button>
+	        		</div>
+	        		<div>
+		        		<button type="submit" 
+		        			ng-if="todo.isEditing"
+		        			class="btn btn-warning"
+		        			ng-click="onEditUpdateClick(todo)">
+		        			Update
+		        		</button>
+		        		<button type="submit"
+		        			ng-if="todo.isEditing"
+		        			class="btn btn-default"
+		        			ng-click="onEditCancelClick(todo)">
+		        			Cancel
+		        		</button>
+	        		</div>
+	        	</td>
+	      </tr>      
+	    </tbody>
+	  </table>
+</div>

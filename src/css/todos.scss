@@ -1,0 +1,13 @@
+.todo, .todos{
+	&__formgroup{
+		width: 50%;
+		margin:0 auto;
+	}
+	&__task-completed{
+		text-decoration: line-through;
+	}
+
+}
+/*.todo__task-completed{
+	text-decoration: line-through;
+}*/
