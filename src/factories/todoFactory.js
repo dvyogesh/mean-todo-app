@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import angular from 'angular';
 
 const todoFactory = angular.module('app.todoFactory', [])
@@ -12,46 +13,41 @@ const todoFactory = angular.module('app.todoFactory', [])
 		})
 	};
 
-	function createTask ($scope, flags) {
-		$http.post('/todos', {
-			task: $scope.createTaskInput,
-			isCompleted: true,
-			isEditing: true
-		}).then((response) =>{
-			//flags.CREATE_HAS_INPUT = false;
-			$scope.createTaskInput = '';
-			getTasks($scope)
-			//console.log(response);
-		},(err)=>{
-			console.log('asfwe');
-		})
-
-		// $http({
-		//        method : "POST",
-		//        url : "/"
-		//    }).then(function mySuccess(response) {
-		//        flags.CREATE_HAS_INPUT = false;
-		//        $scope.createTaskInput = '';
-		//        console.log(response);
-		//    }, function myError(response) {
-		//        console.log('erroe');
-		//    });
+	function createTask($scope, flags) {
+		$http({
+		       method : "POST",
+		       url : "/todos",
+		       data: {
+		       	task: $scope.createTaskInput,
+		       	isCompleted: false,
+		       	isEditing: false
+		       }
+		   }).then(function (response) {
+		   		$scope.createTaskInput = '';
+		       	getTasks($scope);
+		        console.log('response');
+		   }, function (error) {
+		       console.log(error);
+		   });
 		
 	};
 
-	function onEditUpdateClick(todo) {
-		console.log(todo)
-		$http.put(`/todos/${todo._id}`, {
-			task:todo.updatedTask
-		}).then((responce) => {
-			todo.task = todo.updatedTask;
-			console.log(responce);
-			console.log('responce');
-		},(err) => {
-			console.log(err)
-		})
-		// todo.task = todo.updatedTask;
-		// todo.isEditing = false;
+	function onEditUpdateClick($scope, todo) {
+		console.log(todo);
+		$http({
+		       method : "PUT",
+		       url : '/todos/'+todo._id,
+		       data: {
+		       	task: todo.updatedTask
+		       }
+		   }).then(function(response) {
+		       getTasks($scope);
+            	todo.isEditing = false;
+		       console.log(response);
+		       console.log('sucs');
+		   }, function(error) {
+		       console.log(error);
+		   });
 	};
 
 	function onCompletedClick(todo) {
@@ -67,7 +63,15 @@ const todoFactory = angular.module('app.todoFactory', [])
 	}
 
 	function onDeleteClick ($scope, todoToDelete) {
-		_.remove($scope.todos, xyz => xyz.task === todoToDelete.task);
+		$http({
+			method : "DELETE",
+			url : '/todos/'+todoToDelete._id,
+		}).then(function(responce) {
+			console.log(responce);
+			console.log('scucess')
+			_.remove($scope.todos, xyz => xyz.task === todoToDelete.task);
+		})
+		
 
 	}
 

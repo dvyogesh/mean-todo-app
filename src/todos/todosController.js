@@ -39,7 +39,7 @@ export default function ($scope, todoFactory) {
 
 	//$scope.onEditUpdateClick = todo => onEditUpdateClick(todo);
 	//or
-	$scope.onEditUpdateClick = _.partial(onEditUpdateClick);
+	$scope.onEditUpdateClick = _.partial(onEditUpdateClick, $scope);
 	// onclick we are passing tod so we no need to pass/bind  "todo"/"$scope" agin if we use _.partial 
 
 	$scope.onEditCancelClick = todo => onEditCancelClick(todo);
