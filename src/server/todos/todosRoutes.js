@@ -17,6 +17,7 @@ router.post('/', function(req, res)	 {
 	var todo = new Todo(req.body);
 	todo.save(function(err) {
 		if (err) {console.log('err')}else{console.log('sucess')}
+		res.send('task created');
 	});
 });
 
@@ -36,13 +37,13 @@ router.put('/:id', function(req, res) {
 
 router.delete('/:id', function(req, res) {
     var id = req.params.id;
-    console.log('del')
+    //console.log('del')
     Todo.remove({ _id: mongoose.Types.ObjectId(id) }, function(err) {
         if (err) { console.log(err); }
 
         res.send('ToDo deleted');
     });
-    console.log('del');
+    //
 });
 
 module.exports = router;
