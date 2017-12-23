@@ -7,7 +7,7 @@ module.exports = {
         'webpack-dev-server/client?http://127.0.0.1:3001/',
         'webpack/hot/only-dev-server',
          'bootstrap-loader',
-        './src'
+        './src/client'
     ],
     output: {
         path: path.join(__dirname, 'public'),

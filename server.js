@@ -12,13 +12,13 @@ app.all('*/', function(req, res){
 			<base href="/">\
 		</head>\
 		<body>\
-			<div class="container">\
+			<div class="container super-parent">\
 			<div ui-view ></div>\
 			</div>\
 			<script src="bundle.js">\
 			</script>\
 			<h1>\
-			hellow super just cool man\
+			hellow i am from server side this is server side Rendering\
 			</h1>\
 		</body>\
 		</html>\

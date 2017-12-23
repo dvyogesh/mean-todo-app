@@ -1,0 +1,54 @@
+<div class="login-main">
+  <div class="login-inner margin-zero-auto">
+    <div class="login-heading text-center">
+      <h2>Login / Registration / Order</h2>
+    </div>
+    <form role="form">
+      <div class="form-group">
+        <label for="usrname"><span class="glyphicon glyphicon-user"></span> Username</label>
+        <input
+          type="text"
+          class="form-control"
+          id="usrname"
+          placeholder="Enter email"
+          ng-model="userEmailInput">
+      </div>
+      <div class="form-group">
+        <label for="psw">
+          <span class="glyphicon glyphicon-eye-open">
+          </span> 
+          Phone Number
+        </label>
+        <input type="text"
+          class="form-control"
+          id="psw"
+          placeholder="Enter Phone Number"
+          ng-model="userPhoneNumberInput">
+      </div>
+      <div class="form-group">
+        <label>
+          <span class="glyphicon glyphicon-list-alt">
+          </span>
+          Prescription
+        </label>
+        <label for="prescription"  class="display-block">
+          <span class="btn btn-default btn-file">
+              Browse Prescription
+              <input type="file"
+                id="prescription"
+                accept="png/PNG"
+                ng-model="userPrescriptionInput">
+          </span>
+        </label>
+        
+      </div>
+      <div class="checkbox">
+        <label><input type="checkbox" value="" checked>Terms & condition </label>
+      </div>
+      <button class="btn btn-success btn-block" ng-click="createOrder()">
+        <span class="glyphicon glyphicon-off"></span> 
+        Login / Registration / Order
+      </button>
+    </form>
+  </div>
+</div>

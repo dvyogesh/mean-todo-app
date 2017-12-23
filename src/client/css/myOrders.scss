@@ -1,0 +1,27 @@
+.my-orders-main{
+	    
+  .my-order-list-main{
+  	li{
+  		margin-bottom: 15px;
+  	}
+  }
+	    
+	.my-order-list-inner{
+			border: thin solid #cccccc;
+			border-radius: 5px;
+			padding: 10px;
+		.ordered-img{
+			img{
+				max-width: 200px;
+				max-height: 200px;
+			}
+		}
+		.user-actions{
+			.btn{
+				width: 100px;
+				margin: 10px;
+			}
+		}
+	}
+	
+}

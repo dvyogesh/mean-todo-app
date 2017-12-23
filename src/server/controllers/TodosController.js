@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var Todo = require('../db/db').Todo;
+var Todo = require('../models/TodoModel').TodoModel;
 var express = require('express');
 var router = express.Router();
 
@@ -33,7 +33,6 @@ router.put('/:id', function(req, res) {
     });
     console.log('nop');
 });
-
 
 router.delete('/:id', function(req, res) {
     var id = req.params.id;
