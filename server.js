@@ -1,28 +1,14 @@
 var express = require('express');
+var path = require('path');
 var app = express();
 var routes = require('./src/server/routes');
 var bodyParser = require('body-parser');
 var PORT = process.env.PORT || 3000
 app.use(bodyParser.json());
 routes(app);
+app.use(express.static(__dirname));
 app.all('*/', function(req, res){
-	res.send('\
-		<html>\
-		<head>\
-			<base href="/">\
-		</head>\
-		<body>\
-			<div class="container super-parent">\
-			<div ui-view ></div>\
-			</div>\
-			<script src="bundle.js">\
-			</script>\
-			<h1>\
-			hellow i am from server side this is server side Rendering\
-			</h1>\
-		</body>\
-		</html>\
-		');
+	res.sendFile(path.resolve(__dirname, 'index.html'));
 });
 
 app.listen(PORT, function(req, res){
