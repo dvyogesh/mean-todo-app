@@ -2,7 +2,7 @@ import _ from 'lodash';
 import angular from 'angular';
 
 const loginFactory = angular.module('app.loginFactory', [])
-.factory('loginFactory', ($http) => {
+.factory('loginFactory', ($http, $location) => {
 	// function getTasks($scope) {
 	// 	$http.get('/todos').then((responce) =>{
 	// 		$scope.todos = responce.data.todos;
@@ -45,6 +45,7 @@ const loginFactory = angular.module('app.loginFactory', [])
 		       data: dataToSend
 
 		   }).then(function (response) {
+		   		$location.path('/my-orders');
 		   		$scope.createOrderInput = '';
 		       	//getTasks($scope);
 		        console.log('response');

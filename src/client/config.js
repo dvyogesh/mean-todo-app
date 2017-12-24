@@ -3,9 +3,14 @@ import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import todosController from './todos/todosController';
 import todoFactory from './factories/todoFactory';
-import loginFactory from './factories/loginFactory'
-import loginController from './login/loginController'
-const app = angular.module('app', [uiRouter, todoFactory.name, loginFactory.name]);
+import loginFactory from './factories/loginFactory';
+import myOrdersFactory from './factories/myOrdersFactory';
+import loginController from './login/loginController';
+import myOrdersController from './myOrders/myOrdersController'
+const app = angular.module(
+	'app', 
+	[uiRouter, todoFactory.name, loginFactory.name, myOrdersFactory.name ]
+	);
 
 app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
 	$urlRouterProvider.otherwise('/');
@@ -26,8 +31,9 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
 			template:require('./about/about.html'),
 		})
 		.state('myOrders', {
-			url: '/myOrders',
+			url: '/my-orders',
 			template:require('./myOrders/myOrders.html'),
+			controller: myOrdersController
 		})
 		.state('myProfile', {
 			url: '/myProfile',

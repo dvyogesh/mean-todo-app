@@ -4,24 +4,43 @@
 			<h2>My Orders</h2>
 		</div>
 		<ul class="list-unstyled my-order-list-main">
-			<li>
+			<li ng-repeat="orders in orderData">
 				<div class="row my-order-list-inner">
 					<div class="col-sm-3">
 						<div class="ordered-img text-center">
-							<img src="//www.softchalk.com/lessonchallenge09/lesson/Pharmacology/MC-pharmacy_medsManager_winter07_rxproof_1.jpg">
+							<img src="{{orders.orderImage}}">
 						</div>
 					</div>
 					<div class="col-sm-5 text-center">
 						<div class="order-details ">
-							<p>Date: 12/22/2017</p>
-							<p>Time: 10:00 AM</p>
+							<p>Date: {{orders.orderDate}}</p>
+							<p>Time: {{orders.orderTime}}</p>
 						</div>
 						<div class="order-progress ">
-							<p>Status:<span class="color-gereen">Accepted</span></p>
+							<p>Accepted:
+								<span class="color-gereen">
+									{{orders.orderStatus.isAccepted ? 'Yes' : 'pending'}}
+								</span>
+							</p>
+							<p>Dispached:
+								<span class="color-gereen">
+									{{orders.orderStatus.isDispached ? 'Yes' : 'Pending'}}
+								</span>
+							</p>
+							<p>Delevered:
+								<span class="color-gereen">
+									{{orders.orderStatus.isDelevered ? 'Yes' : 'Pending'}}
+								</span>
+							</p>
+							<p>Cancel:
+								<span class="color-gereen">
+									{{orders.orderStatus.isCancel ? 'Yes' : 'No'}}
+								</span>
+							</p>
 						</div>
 					</div>
 					<div class="col-sm-4">
-						<div class="user-actions text-center">
+						<div class="user-actions text-center" ng-if="!orders.orderStatus.isDispached">
 							<div class="edit-order">
 								<button type="button" class="btn btn-info">Edit</button>
 							</div>
@@ -29,32 +48,12 @@
 								<button type="button" class="btn btn-warning">Cancel</button>
 							</div>
 						</div>
-					</div>
-				</div>
-			</li>
-			<li>
-				<div class="row my-order-list-inner">
-					<div class="col-sm-3">
-						<div class="ordered-img text-center">
-							<img src="//www.softchalk.com/lessonchallenge09/lesson/Pharmacology/MC-pharmacy_medsManager_winter07_rxproof_1.jpg">
-						</div>
-					</div>
-					<div class="col-sm-5 text-center">
-						<div class="order-details">
-							<p>Date: 12/22/2017</p>
-							<p>Time: 10:00 AM</p>
-						</div>
-						<div class="order-progress ">
-							<p>Status: <span class="color-gereen"> Accepted</span></p>
-						</div>
-					</div>
-					<div class="col-sm-4">
-						<div class="user-actions text-center">
+						<div class="user-actions text-center" ng-if="orders.orderStatus.isDispached">
 							<div class="edit-order">
-								<button type="button" class="btn btn-info">Edit</button>
+								<button type="button" class="btn btn-success">Feedback</button>
 							</div>
 							<div class="cancel-order">
-								<button type="button" class="btn btn-warning">Cancel</button>
+								<button type="button" class="btn btn-warning">Return</button>
 							</div>
 						</div>
 					</div>
