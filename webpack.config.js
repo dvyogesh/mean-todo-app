@@ -4,7 +4,7 @@ var path = require('path');
 module.exports = {
     devtool: 'inline-source-map',
     entry: [
-        'webpack-dev-server/client?http://127.0.0.1:3001/',
+        'webpack-dev-server/client?http://127.0.0.1:8080/',
         'webpack/hot/only-dev-server',
          'bootstrap-loader',
         './src/client'
@@ -56,7 +56,7 @@ module.exports = {
     ],
     devServer: {
         hot: true,
-        port: 3001,
+        //port: 8080,
         proxy: {
             '*': 'http://localhost:3000'
         }

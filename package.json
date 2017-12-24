@@ -10,7 +10,7 @@
     "build": "webpack --progress --colors --config webpack.prod.config.js"
   },
   "keywords": [],
-  "author": "Michael Cheng <cheng.c.mike@gmail.com> (http://michaelcheng.io)",
+  "author": "Yogesh",
   "license": "ISC",
   "dependencies": {
     "angular": "^1.4.9",
