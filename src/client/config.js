@@ -11,6 +11,32 @@ const app = angular.module(
 	'app', 
 	[uiRouter, todoFactory.name, loginFactory.name, myOrdersFactory.name ]
 	);
+app.run(function($rootScope) {
+    $rootScope.myOrdersData = [];
+});
+
+app.factory('myService', function() {
+
+            return {
+
+                foo: function() {
+
+                    alert("I'm foo!");
+
+                }
+
+            };
+
+        });
+app.run(function($rootScope, myService) {
+
+            $rootScope.appData = myService;
+
+        });
+
+ 
+
+
 
 app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
 	$urlRouterProvider.otherwise('/');

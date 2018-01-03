@@ -3,7 +3,7 @@
     <div class="login-heading text-center">
       <h2>Login / Registration / Order</h2>
     </div>
-    <form role="form">
+    <form role="form" enctype="multipart/form-data">
       <div class="form-group">
         <label for="usrname"><span class="glyphicon glyphicon-user"></span> Username</label>
         <input
@@ -14,16 +14,28 @@
           ng-model="userEmailInput">
       </div>
       <div class="form-group">
-        <label for="psw">
+        <label for="pn">
           <span class="glyphicon glyphicon-eye-open">
           </span> 
           Phone Number
         </label>
         <input type="text"
           class="form-control"
-          id="psw"
+          id="pn"
           placeholder="Enter Phone Number"
           ng-model="userPhoneNumberInput">
+      </div>
+      <div class="form-group">
+        <label for="prescription-txt">
+          <span class="glyphicon glyphicon-list-alt">
+          </span>
+            Write Prescription:
+        </label>
+        <textarea class="form-control" 
+          rows="5" 
+          id="prescription-txt"
+          ng-model="prescriptionText">
+        </textarea>
       </div>
       <div class="form-group">
         <label>
@@ -37,10 +49,10 @@
               <input type="file"
                 id="prescription"
                 accept="png/PNG"
+                name="orderWhileLogin"
                 ng-model="userPrescriptionInput">
           </span>
         </label>
-        
       </div>
       <div class="checkbox">
         <label><input type="checkbox" value="" checked>Terms & condition </label>

@@ -1,10 +1,11 @@
 import _ from 'lodash';
+import _isEmpty from 'lodash/isEmpty';
 import angular from 'angular';
 
 const myOrdersFactory = angular.module('app.myOrdersFactory', [])
 .factory('myOrdersFactory', ($http) => {
 	function getOrders($scope) {
-		var orderData = [
+		var orderDataMock = [
 		{
 			orderImage: '//www.softchalk.com/lessonchallenge09/lesson/Pharmacology/MC-pharmacy_medsManager_winter07_rxproof_1.jpg',
 			orderDate: '1/11/2018',
@@ -42,17 +43,22 @@ const myOrdersFactory = angular.module('app.myOrdersFactory', [])
 
 		}
 	];
-		$http.get('/myOrders').then((responce) =>{
-			if (responce.data.myOrders.length > 1) {
-				$scope.orderData = responce.data.myOrders
-			} else {
-				$scope.orderData = orderData
-			}
-			console.log(responce);
+		
+	 var orderData = $scope.orderData && !_isEmpty($scope.orderData.getOrderData) ? $scope.orderData.getOrderData : false;
+		if (orderData === false) {
+			console.log('!od')
+			$http.get('/myOrders').then((responce) =>{
+				if (responce.data.myOrders.length > 1) {
+					$scope.orderData = responce.data
+				} else {
+					$scope.orderData = orderDataMock
+				}
+				console.log(responce);
 
-		},(err)=>{
-			console.log('error in get task');
-		})
+			},(err)=>{
+				console.log('error in get task');
+			})
+		}
 	};
 
 	// function createTask($scope, flags) {

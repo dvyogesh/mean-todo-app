@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
-var MyOrders = require('../models/MyOrdersModel').MyOrdersModel;
+//var MyOrders = require('../models/MyOrdersModel').MyOrdersModel;
 var express = require('express');
 var router = express.Router();
+var MyOrders = require('../models/OrderModel').OrderModel;
 
 router.get('/', function(req, res) {
     //res.send('i am yog king');

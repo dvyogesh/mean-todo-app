@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import angular from 'angular';
+import fileUpload from '../directives/fileUpload';
 
 const loginFactory = angular.module('app.loginFactory', [])
 .factory('loginFactory', ($http, $location) => {
@@ -13,44 +14,45 @@ const loginFactory = angular.module('app.loginFactory', [])
 	// 	})
 	// };
 
-	function createOrder($scope, flags) {
-			// var file = $scope.userPrescriptionInput;
-			// //var file = $scope.myFile;
-			//        // var uploadUrl = "/multer";
-			//         var fd = new FormData();
-			//         fd.append('file', file);
-	  //      console.log('file is ' );
-	  //      console.log(file)
-	  //      console.dir(file);
 
-	       var prescription = document.getElementById('prescription');
-	       var file = prescription.files[0];
-	       var fromData = new FormData();
-			fromData.append('file', file);
-	       console.log(file)
-	       console.dir(file);
-		//var formData = new FormData($scope);
-		// formData.append('email', form.title);
-		// formData.append('phoneNumber', form.description);
-		// formData.append('prescription', $scope.userPrescriptionInput);
-		//console.log(formData);
-			var dataToSend = {
-		       	email: $scope.userEmailInput,
-		       	phoneNumber: $scope.userPhoneNumberInput,
-		       	prescription: fromData
-		       }
+
+	function createOrder($scope, flags) {
+	   
 		$http({
-		       method : "POST",
-		       url : "/order",
-		       data: dataToSend
+			   method : "POST",
+			   type: 'POST',
+			   url : "/ordersWhileLogin",
+			   data: {
+			   	prescriptionImg: $scope.userPrescriptionInput,
+			   	email: $scope.userEmailInput,
+			   	orderData: [
+				   	{
+				   		prescriptionText: $scope.prescriptionText,
+				   		prescriptionImg: $scope.userPrescriptionInput
+				   	}
+			   	],
+			   	phoneNumber: $scope.userPhoneNumberInput,
+			   	prescriptionText: $scope.prescriptionText
+			   },
+			   withCredentials: true,
+			   cache: false,
+	       contentType: false,
+	       processData: false,
+			   headers: {
+			   	formData: true,
+			 	},
+			 
+        crossDomain: true
 
 		   }).then(function (response) {
-		   		$location.path('/my-orders');
-		   		$scope.createOrderInput = '';
-		       	//getTasks($scope);
-		        console.log('response');
+		   	$scope.orderData = response.data;
+				$location.path('/my-orders');
+				$scope.createOrderInput = '';
+				console.log(response)
+				
+				console.log('response');
 		   }, function (error) {
-		       console.log(error);
+			   console.log(error);
 		   });
 		
 	};

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export default function ($scope, loginFactory) {
+export default function ($scope, loginFactory, $rootScope) {
 	let flags = {
 		CREATE_HAS_INPUT: false
 	};
@@ -24,11 +24,21 @@ export default function ($scope, loginFactory) {
 	// 	}
 	// ];
 
+	// var formdata;
+	//    $scope.getTheFiles = function ($files) {
+	//        formdata = new FormData();
+	//        angular.forEach($files, function (value, key) {
+	//            formdata.append(key, value);
+	//        });
+	//        console.log(formdata)
+	//    };
+
 	//const {onCompletedClick, createOrder, watchCreateTaskInput, onEditClick,onEditUpdateClick, onEditCancelClick, onDeleteClick} = loginFactory;
+
 const { createOrder} = loginFactory;
 	//$scope.onCompletedClick = todo => onCompletedClick(todo);
 
-	$scope.createOrder = _.partial(createOrder, $scope, flags);
+	$scope.createOrder = _.partial(createOrder, $scope);
 	// $scope.$watch('createTaskInput', _.partial(watchCreateTaskInput, flags, $scope));
 	// //$scope.$watch('createTaskInput', _.partial(watchCreateTaskInput, flags, $scope));
 	// //here we are binding flags, $scope to watchCreateTaskInput
