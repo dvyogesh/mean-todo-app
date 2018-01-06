@@ -65,6 +65,11 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
 			url: '/myProfile',
 			template:require('./myProfile/myProfile.html'),
 		})
+		.state('*', {
+			url: '/',
+			controller: loginController,
+			template:require('./login/login.html'),
+		})
 		
 	$locationProvider.html5Mode({
 	  enabled: true,

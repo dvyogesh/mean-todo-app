@@ -45,7 +45,8 @@ export default function ($scope, myOrdersFactory) {
 	// ];
 
 	//const {getOrders} = myOrdersFactory;
-	myOrdersFactory.getOrders($scope);
+	myOrdersFactory.clearSession();
+	myOrdersFactory.getSession($scope);
 	// $scope.onCompletedClick = todo => onCompletedClick(todo);
 
 	// $scope.createTask = _.partial(createTask, $scope, flags);

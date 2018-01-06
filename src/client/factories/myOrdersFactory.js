@@ -3,7 +3,37 @@ import _isEmpty from 'lodash/isEmpty';
 import angular from 'angular';
 
 const myOrdersFactory = angular.module('app.myOrdersFactory', [])
-.factory('myOrdersFactory', ($http) => {
+.factory('myOrdersFactory', ($http, $location) => {
+	function getSession($scope){
+	 // Check browser support
+	 if (typeof(Storage) !== "undefined") {
+	     // Store
+	     //localStorage.setItem("lastname", "Smith");
+	     // Retrieve
+	     //document.getElementById("result").innerHTML = localStorage.getItem("userEmail");
+	     $scope.user = localStorage.getItem("userEmail");
+	     if ($scope.user) {
+	     	getOrders($scope);
+	     } else{
+	     	$location.path('/');
+	     }
+	     
+	 } else {
+	     console.log("Sorry, your browser does not support Web Storage...");
+	 }
+	};
+
+	function clearSession() {
+		$http({
+			   method : "POST",
+			   type: 'POST',
+			   url: '/logout'
+			 }).then(function (response) {
+			 	//localStorage.removeItem("userEmail");
+			 	
+			 })
+	};
+
 	function getOrders($scope) {
 		var orderDataMock = [
 		{
@@ -46,9 +76,13 @@ const myOrdersFactory = angular.module('app.myOrdersFactory', [])
 		
 	 var orderData = $scope.orderData && !_isEmpty($scope.orderData.getOrderData) ? $scope.orderData.getOrderData : false;
 		if (orderData === false) {
-			console.log('!od')
-			$http.get('/myOrders').then((responce) =>{
-				if (responce.data.myOrders.length > 1) {
+			console.log($scope.user);
+			console.log('!od');
+			$http({
+			       method : "GET",
+			       url:'/myOrders/'+ $scope.user
+			   }).then((responce) =>{
+				if (responce && responce.data && !_isEmpty(responce.data.myOrders)) {
 					$scope.orderData = responce.data
 				} else {
 					$scope.orderData = orderDataMock
@@ -136,7 +170,10 @@ const myOrdersFactory = angular.module('app.myOrdersFactory', [])
 	// }
 
 	return {
-		getOrders
+		getOrders,
+		getSession,
+		clearSession
+
 		// onEditUpdateClick,
 		// onCompletedClick,
 		// onEditClick,

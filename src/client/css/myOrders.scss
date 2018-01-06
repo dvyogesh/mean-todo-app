@@ -11,6 +11,20 @@
 			border-radius: 5px;
 			padding: 10px;
 		.ordered-img{
+			.order-text{
+				border: thin solid #cccccc;
+				border-radius: 5px;
+				width: 200px;
+				height: 200px;
+				line-height: 100%;
+				max-width: 100%;
+				max-height: 100%;
+				text-align: center;
+				vertical-align: middle;
+				display: table-cell;
+				p{word-break: break-all;}
+
+			}
 			img{
 				max-width: 200px;
 				max-height: 200px;

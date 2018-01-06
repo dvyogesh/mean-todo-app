@@ -4,6 +4,34 @@ import fileUpload from '../directives/fileUpload';
 
 const loginFactory = angular.module('app.loginFactory', [])
 .factory('loginFactory', ($http, $location) => {
+	function getSession($scope){
+	 // Check browser support
+	 if (typeof(Storage) !== "undefined") {
+	     // Store
+	     //localStorage.setItem("userEmail", "");
+	     // Retrieve
+	     //document.getElementById("result").innerHTML = localStorage.getItem("userEmail");
+	     $scope.user = localStorage.getItem("userEmail");
+	     console.log($scope.user)
+	     if ($scope.user) {
+	     	$location.path('/my-orders');
+	     }
+	     
+	 } else {
+	     console.log("Sorry, your browser does not support Web Storage...");
+	 }
+	};
+
+	function clearSession() {
+		// $http({
+		// 	   method : "POST",
+		// 	   type: 'POST',
+		// 	   url: '/logout'
+		// 	 }).then(function (response) {
+		// 	 	//localStorage.setItem("userEmail", "");
+		// 	 	$location.path('/');
+		// 	 })
+	};
 	// function getTasks($scope) {
 	// 	$http.get('/todos').then((responce) =>{
 	// 		$scope.todos = responce.data.todos;
@@ -17,6 +45,9 @@ const loginFactory = angular.module('app.loginFactory', [])
 
 
 	function createOrder($scope, flags) {
+		var today = new Date();
+		var todayLocal = today.toLocaleDateString();
+		var todayLocalTime = today.toTimeString();
 	   
 		$http({
 			   method : "POST",
@@ -25,12 +56,19 @@ const loginFactory = angular.module('app.loginFactory', [])
 			   data: {
 			   	prescriptionImg: $scope.userPrescriptionInput,
 			   	email: $scope.userEmailInput,
-			   	orderData: [
-				   	{
+			   	orderData: {
 				   		prescriptionText: $scope.prescriptionText,
-				   		prescriptionImg: $scope.userPrescriptionInput
-				   	}
-			   	],
+				   		prescriptionImg: $scope.userPrescriptionInput,
+				   		orderDate: todayLocal,
+				   		orderTime: todayLocalTime,
+				   		orderStatus: {
+				   		  isAccepted: false,
+				   		  isDispached: false,
+				   		  isDelevered: false,
+				   		  isCanceled: false,
+				   		  canceledBy: ''
+				   		}
+				   	},
 			   	phoneNumber: $scope.userPhoneNumberInput,
 			   	prescriptionText: $scope.prescriptionText
 			   },
@@ -45,6 +83,13 @@ const loginFactory = angular.module('app.loginFactory', [])
         crossDomain: true
 
 		   }).then(function (response) {
+		   	if (typeof(Storage) !== "undefined") {
+		   	    // Store
+		   	    localStorage.setItem("userEmail", $scope.userEmailInput);
+		   	    console.log("sucess");
+		   	} else {
+		   	    console.log("Sorry, your browser does not support Web Storage...");
+		   	}
 		   	$scope.orderData = response.data;
 				$location.path('/my-orders');
 				$scope.createOrderInput = '';
@@ -114,6 +159,8 @@ const loginFactory = angular.module('app.loginFactory', [])
 
 	return {
 		createOrder,
+		getSession,
+		clearSession,
 		// onEditUpdateClick,
 		// onCompletedClick,
 		// onEditClick,

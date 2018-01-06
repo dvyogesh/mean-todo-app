@@ -2,12 +2,12 @@ var mongoose = require('mongoose');
 //var MyOrders = require('../models/MyOrdersModel').MyOrdersModel;
 var express = require('express');
 var router = express.Router();
-var MyOrders = require('../models/OrderModel').OrderModel;
+var MyOrders = require('../models/LoginOrderModel').LoginOrderModel;
 
-router.get('/', function(req, res) {
+router.get('/:id', function(req, res) {
     //res.send('i am yog king');
-    
-    MyOrders.find(function(err, results) {
+    console.log(req.params.id);
+    MyOrders.findOne({ email: req.params.id}, function(err, results) {
         if (err) {console.log('err')}
         res.header("Cache-Control", "no-cache, no-store, must-revalidate");
         res.send({myOrders:results})

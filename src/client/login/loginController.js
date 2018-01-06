@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export default function ($scope, loginFactory, $rootScope) {
+export default function ($scope, loginFactory, $rootScope, myOrdersFactory) {
 	let flags = {
 		CREATE_HAS_INPUT: false
 	};
@@ -35,9 +35,10 @@ export default function ($scope, loginFactory, $rootScope) {
 
 	//const {onCompletedClick, createOrder, watchCreateTaskInput, onEditClick,onEditUpdateClick, onEditCancelClick, onDeleteClick} = loginFactory;
 
-const { createOrder} = loginFactory;
+const { createOrder, getSession} = loginFactory;
 	//$scope.onCompletedClick = todo => onCompletedClick(todo);
 
+    getSession($scope);
 	$scope.createOrder = _.partial(createOrder, $scope);
 	// $scope.$watch('createTaskInput', _.partial(watchCreateTaskInput, flags, $scope));
 	// //$scope.$watch('createTaskInput', _.partial(watchCreateTaskInput, flags, $scope));

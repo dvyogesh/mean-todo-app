@@ -1,14 +1,24 @@
 <div class="my-orders-main">
 	<div class="my-orders-main-inner">
 		<div class="my-orders-heading text-center">
-			<h2>My Orders</h2>
+			<h2>
+				My Orders
+				<span class="pull-right color-link">
+				<a href="logout" class="nav-link" onClick="localStorage.removeItem('userEmail');">Logout</a>
+			</span>
+			</h2>
 		</div>
 		<ul class="list-unstyled my-order-list-main">
-			<li ng-repeat="orders in orderData">
+			<li ng-repeat="orders in orderData.myOrders.orderData">
 				<div class="row my-order-list-inner">
 					<div class="col-sm-3">
 						<div class="ordered-img text-center">
-							<img src="{{orders.orderImage}}">
+							<div ng-if="!orders.prescriptionImg || !orders.prescriptionImg == ''" class="order-text">
+							  <p>{{orders.prescriptionText}}</p>
+							</div>
+							<div ng-if="orders.prescriptionImg && !orders.prescriptionImg == ''" >
+							  <img src="{{orders.prescriptionImg}}">
+							</div>
 						</div>
 					</div>
 					<div class="col-sm-5 text-center">

@@ -11,14 +11,23 @@ var data = new Schema({
     phoneNumber: String,
     orderData:[{
     	prescriptionText: String,
-    	prescriptionImg: String
+    	prescriptionImg: String,
+    	orderDate: String,
+    	orderTime: String,
+    	orderStatus: [{
+    	  isAccepted: Boolean,
+    	  isDispached: Boolean,
+    	  isDelevered: Boolean,
+    	  isCanceled: Boolean,
+    	  canceledBy: String
+    	}]
 
     }
     ],
     prescriptionText: String,
     file: { data: Buffer, contentType: String }
     });
-var OrderModel = mongoose.model('ordersWhileLogin', data);
+var LoginOrderModel = mongoose.model('ordersWhileLogin', data);
 
 
 
@@ -29,4 +38,4 @@ var OrderModel = mongoose.model('ordersWhileLogin', data);
 //     prescription: String
 // });
 
-module.exports.OrderModel = OrderModel;
+module.exports.LoginOrderModel = LoginOrderModel;
