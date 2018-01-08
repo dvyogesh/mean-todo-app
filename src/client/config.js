@@ -6,75 +6,103 @@ import todoFactory from './factories/todoFactory';
 import loginFactory from './factories/loginFactory';
 import myOrdersFactory from './factories/myOrdersFactory';
 import loginController from './login/loginController';
-import myOrdersController from './myOrders/myOrdersController'
+import myOrdersController from './myOrders/myOrdersController';
+import {footerController} from './commen/footer/footerController';
+import {headerController} from './commen/header/headerController';
 const app = angular.module(
 	'app', 
-	[uiRouter, todoFactory.name, loginFactory.name, myOrdersFactory.name ]
+	[uiRouter,'ui.router', todoFactory.name, loginFactory.name, myOrdersFactory.name ]
 	);
-app.run(function($rootScope) {
-    $rootScope.myOrdersData = [];
-});
 
-app.factory('myService', function() {
 
-            return {
+var headerView = {
+  templateUrl: require('./commen/header/header.html'),
+  controller: headerController,
+};
 
-                foo: function() {
-
-                    alert("I'm foo!");
-
-                }
-
-            };
-
-        });
-app.run(function($rootScope, myService) {
-
-            $rootScope.appData = myService;
-
-        });
-
- 
+const footerView = {
+ templateUrl: require('./commen/footer/footer.html'),
+ controller: footerController
+};
+const loginView = {
+	templateUrl: require('./login/login.html'),
+	controller: footerController
+}
 
 
 
 app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
 	$urlRouterProvider.otherwise('/');
-	//$stateProvider.errorOnUnhandledRejections(false);
-	$stateProvider
-		.state('login', {
-			url: '/',
-			controller: loginController,
-			template:require('./login/login.html'),
-		})
-		.state('todo', {
-			url: '/todo',
-			template: require('./todos/todos.html'),
-			controller: todosController,
-		})
-		.state('about', {
-			url: '/about',
-			template:require('./about/about.html'),
-		})
-		.state('myOrders', {
-			url: '/my-orders',
-			template:require('./myOrders/myOrders.html'),
-			controller: myOrdersController
-		})
-		.state('myProfile', {
-			url: '/myProfile',
-			template:require('./myProfile/myProfile.html'),
-		})
-		.state('*', {
-			url: '/',
-			controller: loginController,
-			template:require('./login/login.html'),
-		})
-		
 	$locationProvider.html5Mode({
 	  enabled: true,
 	  requireBase: false
 	});
+	//$stateProvider.errorOnUnhandledRejections(false);
+
+
+	$stateProvider
+
+
+	.state('app',{
+    url: '/',
+    views: {
+        'header': {
+        		controller: headerController,
+            templateUrl: require('./commen/header/header.html'),
+
+        },
+        'contentt': {
+            controller: loginController,
+            template: require('./login/login.html') 
+        },
+        'footer': {
+          templateUrl: require('./commen/footer/footer.html'),
+          controller: footerController
+        }
+    }
+	 })
+		
+		// .state('login', {
+		// 	url: '/',
+		// 	views: {
+		// 		'':{
+		// 			templateUrl: require('./main.html'),
+		// 		},
+		// 		'header@login': {
+		// 			templateUrl: require('./commen/header/header.html'),
+		// 		},
+  //       'content@login': {
+  //           controller: loginController,
+  //           template: require('./login/login.html')
+  //       },
+  //       'footer@login': footerView
+  //     }
+		// })
+		// .state('todo', {
+		// 	url: '/todo',
+		// 	template: require('./todos/todos.html'),
+		// 	controller: todosController,
+		// })
+		// .state('about', {
+		// 	url: '/about',
+		// 	template:require('./about/about.html'),
+		// })
+		// .state('myOrders', {
+		// 	url: '/my-orders',
+		// 	template:require('./myOrders/myOrders.html'),
+		// 	controller: myOrdersController
+		// })
+		// .state('myProfile', {
+		// 	url: '/myProfile',
+		// 	template:require('./myProfile/myProfile.html'),
+		// })
+		// .state('*', {
+		// 	url: '/*',
+		// 	controller: loginController,
+		// 	template:require('./login/login.html'),
+		// })
+		
+	
 
 });
 

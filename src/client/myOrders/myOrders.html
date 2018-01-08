@@ -1,12 +1,7 @@
 <div class="my-orders-main">
 	<div class="my-orders-main-inner">
 		<div class="my-orders-heading text-center">
-			<h2>
-				My Orders
-				<span class="pull-right color-link">
-				<a href="logout" class="nav-link" onClick="localStorage.removeItem('userEmail');">Logout</a>
-			</span>
-			</h2>
+			<h2>My Orders</h2>
 		</div>
 		<ul class="list-unstyled my-order-list-main">
 			<li ng-repeat="orders in orderData.myOrders.orderData">
