@@ -5,6 +5,7 @@ import angular from 'angular';
 const myOrdersFactory = angular.module('app.myOrdersFactory', [])
 .factory('myOrdersFactory', ($http, $location) => {
 	function getSession($scope){
+		console.log($scope)
 	 // Check browser support
 	 if (typeof(Storage) !== "undefined") {
 	     // Store
@@ -17,6 +18,7 @@ const myOrdersFactory = angular.module('app.myOrdersFactory', [])
 	     } else{
 	     	$location.path('/');
 	     }
+	     
 	     
 	 } else {
 	     console.log("Sorry, your browser does not support Web Storage...");
@@ -73,27 +75,59 @@ const myOrdersFactory = angular.module('app.myOrdersFactory', [])
 
 		}
 	];
-		
-	 var orderData = $scope.orderData && !_isEmpty($scope.orderData.getOrderData) ? $scope.orderData.getOrderData : false;
-		if (orderData === false) {
-			console.log($scope.user);
-			console.log('!od');
-			$http({
-			       method : "GET",
-			       url:'/myOrders/'+ $scope.user
-			   }).then((responce) =>{
-				if (responce && responce.data && !_isEmpty(responce.data.myOrders)) {
-					$scope.orderData = responce.data
-				} else {
-					$scope.orderData = orderDataMock
-				}
-				console.log(responce);
 
-			},(err)=>{
-				console.log('error in get task');
-			})
+
+	$http({
+	       method : "GET",
+	       url:'/myOrders/'+ $scope.user
+	   }).then((responce) =>{
+		if (responce && responce.data && !_isEmpty(responce.data.myOrders)) {
+			$scope.orderData = responce.data
+		} else {
+			$scope.orderData = orderDataMock
 		}
-	};
+		console.log(responce);
+
+	},(err)=>{
+		console.log('error in get task');
+	})
+		
+	//  var orderData = $scope.orderData && !_isEmpty($scope.orderData.getOrderData) ? $scope.orderData.getOrderData : false;
+	// 	if (orderData === false) {
+	// 		console.log($scope.user);
+	// 		console.log('!od');
+	// 		$http({
+	// 		       method : "GET",
+	// 		       url:'/myOrders/'+ $scope.user
+	// 		   }).then((responce) =>{
+	// 			if (responce && responce.data && !_isEmpty(responce.data.myOrders)) {
+	// 				$scope.orderData = responce.data
+	// 			} else {
+	// 				$scope.orderData = orderDataMock
+	// 			}
+	// 			console.log(responce);
+
+	// 		},(err)=>{
+	// 			console.log('error in get task');
+	// 		})
+	// 	} else {
+	// 		console.log('$scope.orderData')
+	// 		console.log($scope.orderData)
+	// 	}
+	 };
+
+	 function onCancelOrderClick($scope, myOrders, orderToCancel, orderDataId) {
+	 	var url = '/myOrders/'+ myOrders._id + '/' + orderDataId +'/' + orderToCancel._id;
+	 	console.log(url)
+	 	$http({
+	 			method : "POST",
+	 			url : url,
+	 		}).then(function(responce) {
+	 			console.log(responce);
+	 			console.log('scucess')
+	 			_.remove($scope.orderData.myOrders.orderData, xyz => xyz.myOrders === orderToCancel._id);
+	 		})
+	 }
 
 	// function createTask($scope, flags) {
 	// 	$http({
@@ -172,7 +206,8 @@ const myOrdersFactory = angular.module('app.myOrdersFactory', [])
 	return {
 		getOrders,
 		getSession,
-		clearSession
+		clearSession,
+		onCancelOrderClick
 
 		// onEditUpdateClick,
 		// onCompletedClick,

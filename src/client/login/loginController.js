@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
-export default function ($scope, loginFactory, $rootScope, myOrdersFactory) {
+export default function ($scope, loginFactory, $rootScope, myOrdersFactory, $state) {
 	let flags = {
-		CREATE_HAS_INPUT: false
+		CREATE_HAS_INPUT: false,
 	};
 
 	//loginFactory.getTasks($scope);

@@ -1,7 +1,7 @@
 <div class="my-orders-main">
 	<div class="my-orders-main-inner">
 		<div class="my-orders-heading text-center">
-			<h2>My Orders</h2>
+			<h2>My Orders	</h2>
 		</div>
 		<ul class="list-unstyled my-order-list-main">
 			<li ng-repeat="orders in orderData.myOrders.orderData">
@@ -50,7 +50,12 @@
 								<button type="button" class="btn btn-info">Edit</button>
 							</div>
 							<div class="cancel-order">
-								<button type="button" class="btn btn-warning">Cancel</button>
+								<button type="button"
+								class="btn btn-warning"
+								ng-click="onCancelOrderClick(orderData.myOrders,
+													orders.orderStatus[0], orders._id)">
+									Cancel 
+								</button>
 							</div>
 						</div>
 						<div class="user-actions text-center" ng-if="orders.orderStatus.isDispached">

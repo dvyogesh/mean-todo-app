@@ -5,6 +5,7 @@ import fileUpload from '../directives/fileUpload';
 const loginFactory = angular.module('app.loginFactory', [])
 .factory('loginFactory', ($http, $location) => {
 	function getSession($scope){
+
 	 // Check browser support
 	 if (typeof(Storage) !== "undefined") {
 	     // Store
@@ -15,7 +16,9 @@ const loginFactory = angular.module('app.loginFactory', [])
 	     console.log($scope.user)
 	     if ($scope.user) {
 	     	$location.path('/my-orders');
+
 	     }
+	     
 	     
 	 } else {
 	     console.log("Sorry, your browser does not support Web Storage...");

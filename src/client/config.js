@@ -11,73 +11,102 @@ import {footerController} from './commen/footer/footerController';
 import {headerController} from './commen/header/headerController';
 const app = angular.module(
 	'app', 
-	[uiRouter,'ui.router', todoFactory.name, loginFactory.name, myOrdersFactory.name ]
+	[uiRouter, todoFactory.name, loginFactory.name, myOrdersFactory.name ]
 	);
 
 
 var headerView = {
-  templateUrl: require('./commen/header/header.html'),
+  template: require('./commen/header/header.html'),
   controller: headerController,
 };
 
 const footerView = {
- templateUrl: require('./commen/footer/footer.html'),
+ template: require('./commen/footer/footer.html'),
  controller: footerController
 };
 const loginView = {
-	templateUrl: require('./login/login.html'),
+	template: require('./login/login.html'),
 	controller: footerController
 }
 
 
 
 app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
+	
 	$urlRouterProvider.otherwise('/');
 	$locationProvider.html5Mode({
 	  enabled: true,
 	  requireBase: false
-	});
+});
 	//$stateProvider.errorOnUnhandledRejections(false);
 
 
-	$stateProvider
 
+	 $stateProvider
+	// .state('header', {
+	//     url: '^/header',
+	//     controller: headerController ,
+	//     templateUrl: require('./commen/header/header.html')
+	// }).state('header.login', {
+	//     url: '^/login',
+	//     controller:loginController ,
+	//     templateUrl: require('./login/login.html')
+	// }).state('header.login.footer', {
+	// 	url: '^/',
+	// 	controller: footerController,
+	// 	templateUrl: require('./commen/footer/footer.html')
+	    
+	// })
 
 	.state('app',{
-    url: '/',
+    url: '',
+    abstract: true,
     views: {
-        'header': {
-        		controller: headerController,
-            templateUrl: require('./commen/header/header.html'),
-
-        },
-        'contentt': {
+        'header': headerView,
+        'content': {
             controller: loginController,
             template: require('./login/login.html') 
         },
-        'footer': {
-          templateUrl: require('./commen/footer/footer.html'),
-          controller: footerController
-        }
+        'footer': footerView
+    },
+    data:{
+    	isLogin: false
     }
 	 })
-		
-		// .state('login', {
-		// 	url: '/',
-		// 	views: {
-		// 		'':{
-		// 			templateUrl: require('./main.html'),
-		// 		},
-		// 		'header@login': {
-		// 			templateUrl: require('./commen/header/header.html'),
-		// 		},
-  //       'content@login': {
-  //           controller: loginController,
-  //           template: require('./login/login.html')
-  //       },
-  //       'footer@login': footerView
-  //     }
+	.state('app.login', {
+			url: '/',
+			views: {
+        'content@': {
+            controller: loginController,
+            template: require('./login/login.html')
+        },
+        data:{
+        	isLogin: false
+        }
+        
+      }
+		})
+		.state('app.myOrders', {
+			url: '/my-orders',
+			views: {
+				'content@': {
+				  controller: myOrdersController,
+				  template: require('./myOrders/myOrders.html'),
+				},
+				data:{
+					isLogin: true
+				}
+			}
+			
+		})
+		// .state('myProfile', {
+		// 	url: '/myProfile',
+		// 	template:require('./myProfile/myProfile.html'),
 		// })
+		.state('app.login.notfound', {
+			url: '/*',
+			template:require('./main.html'),
+		})
 		// .state('todo', {
 		// 	url: '/todo',
 		// 	template: require('./todos/todos.html'),
@@ -86,20 +115,6 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
 		// .state('about', {
 		// 	url: '/about',
 		// 	template:require('./about/about.html'),
-		// })
-		// .state('myOrders', {
-		// 	url: '/my-orders',
-		// 	template:require('./myOrders/myOrders.html'),
-		// 	controller: myOrdersController
-		// })
-		// .state('myProfile', {
-		// 	url: '/myProfile',
-		// 	template:require('./myProfile/myProfile.html'),
-		// })
-		// .state('*', {
-		// 	url: '/*',
-		// 	controller: loginController,
-		// 	template:require('./login/login.html'),
 		// })
 		
 	

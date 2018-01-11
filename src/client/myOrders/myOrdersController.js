@@ -1,10 +1,9 @@
 import _ from 'lodash';
 
-export default function ($scope, myOrdersFactory) {
+export default function ($scope, myOrdersFactory, $state) {
 	// let flags = {
 	// 	CREATE_HAS_INPUT: false
 	// };
-
 	// $scope.orderData = [
 	// 	{
 	// 		orderImage: '//www.softchalk.com/lessonchallenge09/lesson/Pharmacology/MC-pharmacy_medsManager_winter07_rxproof_1.jpg',
@@ -44,9 +43,11 @@ export default function ($scope, myOrdersFactory) {
 	// 	}
 	// ];
 
-	//const {getOrders} = myOrdersFactory;
+	const {onCancelOrderClick} = myOrdersFactory;
 	myOrdersFactory.clearSession();
 	myOrdersFactory.getSession($scope);
+	//myOrdersFactory.onCancelOrderClick($scope);
+	$scope.onCancelOrderClick = _.partial(onCancelOrderClick, $scope)
 	// $scope.onCompletedClick = todo => onCompletedClick(todo);
 
 	// $scope.createTask = _.partial(createTask, $scope, flags);
