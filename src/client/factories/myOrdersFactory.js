@@ -117,15 +117,16 @@ const myOrdersFactory = angular.module('app.myOrdersFactory', [])
 	 };
 
 	 function onCancelOrderClick($scope, myOrders, orderToCancel, orderDataId) {
-	 	var url = '/myOrders/'+ myOrders._id + '/' + orderDataId +'/' + orderToCancel._id;
+	 	var url = '/myOrders/'+ myOrders.email + '/' + orderDataId +'/' + orderToCancel._id;
 	 	console.log(url)
 	 	$http({
 	 			method : "POST",
 	 			url : url,
 	 		}).then(function(responce) {
 	 			console.log(responce);
-	 			console.log('scucess')
-	 			_.remove($scope.orderData.myOrders.orderData, xyz => xyz.myOrders === orderToCancel._id);
+	 			console.log('scucess');
+	 			$scope.orderData = responce.data
+	 			//_.remove($scope.orderData.myOrders.orderData, xyz => xyz.myOrders === orderToCancel._id);
 	 		})
 	 }
 

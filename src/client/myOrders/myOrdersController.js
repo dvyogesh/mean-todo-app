@@ -42,12 +42,13 @@ export default function ($scope, myOrdersFactory, $state) {
 
 	// 	}
 	// ];
-
+    $scope.isLogin = true;
 	const {onCancelOrderClick} = myOrdersFactory;
 	myOrdersFactory.clearSession();
 	myOrdersFactory.getSession($scope);
 	//myOrdersFactory.onCancelOrderClick($scope);
-	$scope.onCancelOrderClick = _.partial(onCancelOrderClick, $scope)
+	$scope.onCancelOrderClick = _.partial(onCancelOrderClick, $scope);
+
 	// $scope.onCompletedClick = todo => onCompletedClick(todo);
 
 	// $scope.createTask = _.partial(createTask, $scope, flags);

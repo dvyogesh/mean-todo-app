@@ -9,12 +9,17 @@ var db = mongojs('todos', ['orderswhilelogins']);
 router.get('/:id', function(req, res) {
     //res.send('i am yog king');
     console.log(req.params.id);
-    MyOrders.findOne({ email: req.params.id}, function(err, results) {
+    getOrdersByEmail(req.params.id, req, res);
+    
+});
+
+function getOrdersByEmail(id, req, res) {
+    MyOrders.findOne({ email: id}, function(err, results) {
         if (err) {console.log('err')}
         res.header("Cache-Control", "no-cache, no-store, must-revalidate");
         res.send({myOrders:results})
     })
-});
+}
 
 
 // var storage = multer.diskStorage({
@@ -40,7 +45,7 @@ router.get('/:id', function(req, res) {
 // });
 
 // router.put('/:id', function(req, res) {
-//     var id = req.params.id;
+//     var id = id;
 //     console.log('yop');
 //     Todo.update({ _id: mongoose.Types.ObjectId(id) }, {
 //         $set: { task: req.body.task }
@@ -96,11 +101,14 @@ router.get('/:id', function(req, res) {
 
 router.post('/:myOrdersId/:orderDataId/:orderStatusId', function(req, res) {
     console.log(req)
+    var email = req.params.myOrdersId
     var myOrdersId = req.params.myOrdersId;
     var orderDataId = req.params.orderDataId;
     var orderStatusId = req.params.orderStatusId;
     console.log(typeof(myOrdersId))
     console.log(myOrdersId)
+    var date = new Date();
+    var dateToLocal = date.toLocaleString();
     // db.orderswhilelogins.update( 
     // { orderData: {$elemMatch: { _id: orderDataId}} },
     // { 
@@ -114,19 +122,41 @@ router.post('/:myOrdersId/:orderDataId/:orderStatusId', function(req, res) {
     //     }
     // })
 
-    db.orderswhilelogins.update({_id : mongoose.Types.ObjectId(myOrdersId)},
-        {
-            "$set": { 
-                "orderData.$.orderStatus.canceledBy": "user",
-                "orderData.$.orderStatus.isCanceled": true,
-            }
+    //db.orderswhilelogins.update({_id : mongoose.Types.ObjectId(myOrdersId)},{$inc:{"orderData.$.canceledBy":"user","orderData.$.orderStatus.isCanceled": true}})
 
-        },
-        {multi : true}, function (err, doc, lastErrorObject) {
-              if (err) {console.log('err in order update findAndModify')}
-               res.send(lastErrorObject);
-             }
-    )
+    db.orderswhilelogins.update({
+        'email': email,
+        'orderData._id': mongojs.ObjectId(orderDataId),
+        'orderData.orderStatus._id': mongojs.ObjectId(orderStatusId),
+    }, {
+        $set: { 
+            'orderData.$.orderStatus.0.canceledBy': 'user',
+            'orderData.$.orderStatus.0.isCanceled': true,
+            'orderData.$.orderStatus.0.canceledTime': dateToLocal,
+        }
+    },
+    function(err, products) {
+        if (err) {
+            console.log(err)
+        } else {
+             getOrdersByEmail(email, req, res);
+        }
+        
+    })
+
+    // db.orderswhilelogins.update({_id : mongoose.Types.ObjectId(myOrdersId)},
+    //     {
+    //         "$set": { 
+    //             "orderData.$.orderStatus.canceledBy": "user",
+    //             "orderData.$.orderStatus.isCanceled": true
+    //         }
+
+    //     },
+    //     {multi : true}, function (err, doc, lastErrorObject) {
+    //           if (err) {console.log('err in order update findAndModify')}
+    //            res.send(lastErrorObject);
+    //          }
+    // )
     // db.orderswhilelogins.findAndModify({
     //     query: { _id: mongoose.Types.ObjectId(orderStatusId) },
     //     update: {

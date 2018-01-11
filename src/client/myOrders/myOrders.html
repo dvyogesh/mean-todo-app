@@ -37,15 +37,16 @@
 									{{orders.orderStatus.isDelevered ? 'Yes' : 'Pending'}}
 								</span>
 							</p>
-							<p>Cancel:
+							<p ng-class="orders.orderStatus[0].isCanceled ? 'color-red' : ''">Canceled By:
 								<span class="color-gereen">
-									{{orders.orderStatus.isCancel ? 'Yes' : 'No'}}
+									{{orders.orderStatus[0].isCanceled ? orderData.myOrders.email + ' ' + orders.orderStatus[0].canceledTime : 'Non'}}
 								</span>
 							</p>
 						</div>
 					</div>
 					<div class="col-sm-4">
-						<div class="user-actions text-center" ng-if="!orders.orderStatus.isDispached">
+						<div class="user-actions text-center"
+							ng-if="orders.orderStatus[0].isDispached !== true && orders.orderStatus[0].isCanceled !== true">
 							<div class="edit-order">
 								<button type="button" class="btn btn-info">Edit</button>
 							</div>
@@ -58,7 +59,10 @@
 								</button>
 							</div>
 						</div>
-						<div class="user-actions text-center" ng-if="orders.orderStatus.isDispached">
+						<div class="reorder text-center" ng-if=orders.orderStatus[0].isCanceled>
+							<button type="button" class="btn btn-success">Re-Order</button>
+						</div>
+						<div class="user-actions text-center" ng-if="orders.orderStatus[0].isDispached">
 							<div class="edit-order">
 								<button type="button" class="btn btn-success">Feedback</button>
 							</div>

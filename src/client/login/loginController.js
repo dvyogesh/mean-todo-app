@@ -34,7 +34,7 @@ export default function ($scope, loginFactory, $rootScope, myOrdersFactory, $sta
 	//    };
 
 	//const {onCompletedClick, createOrder, watchCreateTaskInput, onEditClick,onEditUpdateClick, onEditCancelClick, onDeleteClick} = loginFactory;
-
+$scope.isLogin = false;
 const { createOrder, getSession} = loginFactory;
 	//$scope.onCompletedClick = todo => onCompletedClick(todo);
 
