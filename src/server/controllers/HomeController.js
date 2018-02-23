@@ -1,22 +1,107 @@
-// const mongoose = require('mongoose');
-// const Order = require('../models/MainSchema').Orders;
-// const UsersSchema = require('../models/MainSchema').Users;
-// const OrdersModel = require('../models/OrdersModel').OrdersModel;
-// const multer  = require('multer');
-// const express = require('express');
-// const path = require('path');
-// const router = express.Router();
-// const _isEmpty = require('lodash/isEmpty');
+const mongoose = require('mongoose');
+const Orders = require('../models/MainSchema').Orders;
+const UsersSchema = require('../models/MainSchema').Users;
+//const OrdersModel = require('../models/OrdersModel').OrdersModel;
+const multer  = require('multer');
+const express = require('express');
+const path = require('path');
+const router = express.Router();
+const _isEmpty = require('lodash/isEmpty');
+const get = require('lodash/get');
+const HttpStatus = require('http-status');
 // const mongojs = require('mongojs');
 // const db = mongojs('todos', ['orderswhilelogins']);
 // const jwt = require('jsonwebtoken');
-// const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
+const fs = require('node-fs');
 // const Grid = require('gridfs-stream');
 // let fileName;
+var upload = multer({ dest: 'uploads/' })
+const ErrorConsole = function(err) {
+  console.log(err)
+}
+function jsonEscape(str)  {
+    return str.replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r").replace(/\t/g, "\\\\t");
+}
 
-// const ErrorConsole = function(err) {
-//   console.log(err)
-// }
+
+router.post('/', upload.array('file', 12), function (req, res, next) {
+  // req.files is array of `photos` files
+  // req.body will contain the text fields, if there were any
+  console.log('===========================');
+  console.log(req.files);
+  console.log(req.body);
+  const userDetails =  JSON.parse(jsonEscape(req.body.data));
+  console.log(userDetails)
+  Orders.findOne({user: userDetails.email},function(err, user){
+    if(err){
+      console.log('err');
+      console.log(err);
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({error: 'unexpected error accessing data'});
+      return;
+    }else if(user){
+      saveOrderData(req, res, userDetails, 'existing');
+    } else {
+      saveNewUser(req, res, userDetails);
+      //res.status(HttpStatus.OK).json({"message":"new user"});
+    }
+  });
+});
+
+
+function saveNewUser(req, res, userDetails) {
+  var newUser = new UsersSchema;
+  newUser.user = userDetails.user;
+  newUser.email = userDetails.email;
+  newUser.phoneNumber = userDetails.phoneNumber;
+  newUser.save(function( saveErr, saveUser){
+    if (saveErr) {res.status(HttpStatus.OK).json({"message":"err in new user"});}
+    saveOrderData(req, res, userDetails, 'new');
+    //res.status(HttpStatus.OK).json({"message":"in new user successfully placed"});
+  })
+}
+
+function saveOrderData(req, res, userDetails, typeUser) {
+    var newOrder = new Orders;
+    newOrder.user = userDetails.user;
+
+    req.files.forEach(function(file){
+      fs.readFile(file.path, 'binary', function (dataErr, data) {
+
+        //fs.writeFile('image_orig.png', original_data, 'binary', function(err) {});
+           var base64Image = new Buffer(data, 'binary').toString('base64');
+           console.log('base64Image');
+           console.log(base64Image);
+        if(data) {
+          console.log('data');
+          console.log(data);
+         newOrder.prescriptionImages.push({
+            image : data,
+            fileName : file.originalname,
+            fileType : file.mimetype,
+            base64Image: base64Image
+          });
+        }
+      });
+      fs.unlink(file.path, function (err) {
+            if (err) throw err;
+        });
+    })
+   setTimeout(function(){ 
+      console.log('setTimeout::>');
+      newOrder.save(function (saveErr, saveOrder) {
+      if(saveErr){
+        console.log('saveErr::>'+saveErr);
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({error: 'unexpected error accessing data'});
+        return;
+      }else{
+        console.log(saveOrder);
+        res.status(HttpStatus.OK).json({"message": typeUser + " user saved &order successfully placed"});
+      }
+    })
+  }, 2000);
+}
+
 // const storage = require('multer-gridfs-storage')({
 //    url: process.env.MONGOLAB_URI || 'mongodb://localhost/todos',
 //    filename: function (req, file, cb) {
@@ -224,29 +309,29 @@
 //     });
 // });
 
-// // router.put('/:id', function(req, res) {
-// //     var id = req.params.id;
-// //     console.log('yop');
-// //     Todo.update({ _id: mongoose.Types.ObjectId(id) }, {
-// //         $set: { task: req.body.task }
+// router.put('/:id', function(req, res) {
+//     var id = req.params.id;
+//     console.log('yop');
+//     Todo.update({ _id: mongoose.Types.ObjectId(id) }, {
+//         $set: { task: req.body.task }
 
-// //     }, function(err) {
-// //         if (err) { console.log(err); }
-// //         res.send('ToDo updated');
-// //     });
-// //     console.log('nop');
-// // });
+//     }, function(err) {
+//         if (err) { console.log(err); }
+//         res.send('ToDo updated');
+//     });
+//     console.log('nop');
+// });
 
 
-// // router.delete('/:id', function(req, res) {
-// //     var id = req.params.id;
-// //     //console.log('del')
-// //     Todo.remove({ _id: mongoose.Types.ObjectId(id) }, function(err) {
-// //         if (err) { console.log(err); }
+// router.delete('/:id', function(req, res) {
+//     var id = req.params.id;
+//     //console.log('del')
+//     Todo.remove({ _id: mongoose.Types.ObjectId(id) }, function(err) {
+//         if (err) { console.log(err); }
 
-// //         res.send('ToDo deleted');
-// //     });
-// //     //
-// // });
+//         res.send('ToDo deleted');
+//     });
+//     //
+// });
 
-// module.exports = router;
+module.exports = router;

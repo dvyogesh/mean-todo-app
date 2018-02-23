@@ -51,39 +51,45 @@ const loginFactory = angular.module('app.loginFactory', [])
 		var today = new Date();
 		var todayLocal = today.toLocaleDateString();
 		var todayLocalTime = today.toTimeString();
+
+		var PrescriptionImg = $scope.PrescriptionImges;
+		var fd = new FormData();
+		for ( var i = 0; PrescriptionImg && i < PrescriptionImg.length; i++){
+		  
+		  fd.append("file", PrescriptionImg[i]);
+		}
+		console.log(fd);
+		console.dir(fd)
+	   console.log('PrescriptionImg');
 	   
+	   console.log(PrescriptionImg);
+
+	  const DATA_TO_SEND = {
+	  	user: $scope.userEmailInput,
+	  	email: $scope.userEmailInput,
+	  	phoneNumber: $scope.userPhoneNumberInput,
+	  	prescriptionText: $scope.prescriptionText,
+	   	// prescriptionImg: '',
+	   	// isAccepted: false,
+	   	// isDispached: false,
+	   	// isDelevered: false,
+	   	// isCanceled: false,
+	   	// canceledBy: '',
+   		// orderDate: todayLocal,
+   		// orderTime: todayLocalTime
+	  };
+	  fd.append("data", JSON.stringify(DATA_TO_SEND));
 		$http({
 			   method : "POST",
 			   type: 'POST',
 			   url : "/ordersWhileLogin",
-			   data: {
-			   	prescriptionImg: $scope.userPrescriptionInput,
-			   	email: $scope.userEmailInput,
-			   	orderData: {
-				   		prescriptionText: $scope.prescriptionText,
-				   		prescriptionImg: $scope.userPrescriptionInput,
-				   		orderDate: todayLocal,
-				   		orderTime: todayLocalTime,
-				   		orderStatus: {
-				   		  isAccepted: false,
-				   		  isDispached: false,
-				   		  isDelevered: false,
-				   		  isCanceled: false,
-				   		  canceledBy: ''
-				   		}
-				   	},
-			   	phoneNumber: $scope.userPhoneNumberInput,
-			   	prescriptionText: $scope.prescriptionText
-			   },
-			   withCredentials: true,
-			   cache: false,
-	       contentType: false,
-	       processData: false,
-			   headers: {
-			   	formData: true,
-			 	},
-			 
-        crossDomain: true
+			   // data: fd,
+			   // withCredentials : false,
+		     headers : {
+		     'Content-Type' : undefined
+		     },
+		    cache: false,
+		    data: fd,
 
 		   }).then(function (response) {
 		   	if (typeof(Storage) !== "undefined") {
@@ -94,7 +100,7 @@ const loginFactory = angular.module('app.loginFactory', [])
 		   	    console.log("Sorry, your browser does not support Web Storage...");
 		   	}
 		   	$scope.orderData = response.data;
-				$location.path('/my-orders');
+				//$location.path('/my-orders');
 				$scope.createOrderInput = '';
 				console.log(response)
 				

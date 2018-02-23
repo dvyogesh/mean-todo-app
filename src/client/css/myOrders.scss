@@ -10,8 +10,21 @@
 			border: thin solid #cccccc;
 			border-radius: 5px;
 			padding: 10px;
-		.ordered-img{
-			.order-text{
+		.order-img{
+			height: -webkit-fill-available;
+	    background-size: contain;
+	    background-repeat: no-repeat;
+	    background-position: center;
+	    width: 200px;
+	    height: 200px;
+	    border: thin solid #cccccc;
+	    border-radius: 5px;
+	    line-height: 100%;
+	    max-width: 100%;
+	    max-height: 100%;
+	    text-align: center;
+
+			/*.order-text, .prescription-img{
 				border: thin solid #cccccc;
 				border-radius: 5px;
 				width: 200px;
@@ -24,7 +37,11 @@
 				display: table-cell;
 				p{word-break: break-all;}
 
+			}*/
+			.prescription-img {
+
 			}
+
 			img{
 				max-width: 200px;
 				max-height: 200px;
@@ -37,5 +54,60 @@
 			}
 		}
 	}
-	
+
+	.status-indictors-main {
+		margin-top: 50px;
+		min-height: 50px;
+
+		.status-indictors-inner {
+			position: relative;
+
+			.status-indictors-hr {
+				border: thin solid #000;
+			}
+			.order-placed, .order-accepted, .order-dispached, .order-delevered {
+				width: 30px;
+				height: 30px;
+				border: 2px solid green;
+				border-radius: 100%;
+				top: -15px;
+				background-color: #fff;
+			}
+			.order-placed {
+				left: 0px;
+			}
+			.order-accepted {
+				left: 31%;
+			}
+
+			.order-dispached {
+				left: 63%
+			}
+
+			.order-delevered {
+				right: 0px;
+			}
+			.status-cancel, .status-active, .no-status {
+				padding: 0px 8px;
+				border-radius: 100%;
+				position: relative;
+				top: -15px;
+			}
+			.status-active {
+				background-color: green;
+			}
+			.status-cancel {
+				background-color: red;
+			}
+			.status-text {
+				position: relative;
+				top:-25px;
+			}
+
+			.no-status {
+				border: thin solid green;
+			}
+		}
+	}
+
 }

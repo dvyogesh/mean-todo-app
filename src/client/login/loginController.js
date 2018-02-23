@@ -39,6 +39,13 @@ const { createOrder, getSession} = loginFactory;
 	//$scope.onCompletedClick = todo => onCompletedClick(todo);
 
     getSession($scope);
+
+    $scope.uploadedFile = function(element) {
+     $scope.$apply(function($scope) {
+       $scope.PrescriptionImges = element.files;         
+     });
+    }
+
 	$scope.createOrder = _.partial(createOrder, $scope);
 	// $scope.$watch('createTaskInput', _.partial(watchCreateTaskInput, flags, $scope));
 	// //$scope.$watch('createTaskInput', _.partial(watchCreateTaskInput, flags, $scope));

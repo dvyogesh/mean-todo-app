@@ -9,6 +9,7 @@ import loginController from './login/loginController';
 import myOrdersController from './myOrders/myOrdersController';
 import {footerController} from './commen/footer/footerController';
 import {headerController} from './commen/header/headerController';
+import {adminController} from './admin/adminController';
 const app = angular.module(
 	'app', 
 	[uiRouter, todoFactory.name, loginFactory.name, myOrdersFactory.name ]
@@ -97,16 +98,28 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
 					isLogin: true
 				}
 			}
-			
 		})
+		.state('admin', {
+			url: '/admin',
+			views: {
+				'content@': {
+				  controller: adminController,
+				  template: require('./admin/adminHome.html'),
+				},
+				data:{
+					isLogin: true
+				}
+			}
+		})
+		
 		// .state('myProfile', {
 		// 	url: '/myProfile',
 		// 	template:require('./myProfile/myProfile.html'),
 		// })
-		.state('app.login.notfound', {
-			url: '/*',
-			template:require('./main.html'),
-		})
+		// .state('app.login.notfound', {
+		// 	url: '/*',
+		// 	template:require('./main.html'),
+		// })
 		// .state('todo', {
 		// 	url: '/todo',
 		// 	template: require('./todos/todos.html'),

@@ -49,8 +49,9 @@
               <input type="file"
                 id="prescription"
                 accept="png/PNG"
-                name="orderWhileLogin"
-                ng-model="userPrescriptionInput">
+                ng-model="PrescriptionImg"
+                name="file" multiple 
+                onchange="angular.element(this).scope().uploadedFile(this)"/>
           </span>
         </label>
       </div>

@@ -1,0 +1,9 @@
+{ _id: 5a8199ba06bec842e2278780,
+  fileType: 'image/png',
+  fileName: 'screencapture-localhost-3000-prod189780465-p-prod-1513000120631.png',
+  image: 
+   Binary {
+     _bsontype: 'Binary',
+     sub_type: 0,
+     position: 447618,
+     buffer: <Buffer 89 50 4e 47 0d 0a 1a 0a 00 00 00 0d 49 48 44 52 00 00 01 37 00 00 0b 92 08 06 00 00 00 22 83 d9 21 00 00 20 00 49 44 41 54 78 5e ec 9d 05 98 d5 c5 fa ... > } }

@@ -25,6 +25,18 @@ const myOrdersFactory = angular.module('app.myOrdersFactory', [])
 	 }
 	};
 
+	var arrayBufferToBase64 = function(buffer) {
+
+	  console.log(buffer);
+	  var binary = '';
+	  var bytes = new Uint8Array(buffer);
+	  var len = bytes.byteLength;
+	  for (var i = 0; i < len; i++) {
+	    binary += String.fromCharCode(bytes[i]);
+	  }
+	  return window.btoa(binary);
+	}
+
 	function clearSession() {
 		$http({
 			   method : "POST",
@@ -75,18 +87,29 @@ const myOrdersFactory = angular.module('app.myOrdersFactory', [])
 
 		}
 	];
-
+	$scope.loader = true;
 
 	$http({
 	       method : "GET",
 	       url:'/myOrders/'+ $scope.user
 	   }).then((responce) =>{
-		if (responce && responce.data && !_isEmpty(responce.data.myOrders)) {
-			$scope.orderData = responce.data
+		if (responce && responce.data && !_isEmpty(responce.data)) {
+			$scope.orderData = responce.data;
+			console.log(responce);
+			$scope.loader = false;
+			//console.log(JSON.stringify(responce.data.prescriptionImages[0].image));
 		} else {
 			$scope.orderData = orderDataMock
 		}
 		console.log(responce);
+		//$scope.imgUrl = responce.data.prescriptionImages[0].base64Image;
+		//$scope.imgUrl = window.btoa($scope.imgUrlArray)
+
+
+		//$scope.imgUrlArray = window.btoa($scope.imgUrlArray)
+		//console.log($scope.imgUrlArray)
+		//console.log($scope.imgUrl)
+		//console.log(JSON.stringify(responce.data.prescriptionImages[0].image));
 
 	},(err)=>{
 		console.log('error in get task');
@@ -116,8 +139,8 @@ const myOrdersFactory = angular.module('app.myOrdersFactory', [])
 	// 	}
 	 };
 
-	 function onCancelOrderClick($scope, myOrders, orderToCancel, orderDataId) {
-	 	var url = '/myOrders/'+ myOrders.email + '/' + orderDataId +'/' + orderToCancel._id;
+	 function onCancelOrderClick($scope, orderId) {
+	 	var url = '/myOrders/'+ orderId;
 	 	console.log(url)
 	 	$http({
 	 			method : "POST",
