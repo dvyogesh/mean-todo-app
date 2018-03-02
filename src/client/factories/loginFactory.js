@@ -105,6 +105,7 @@ const loginFactory = angular.module('app.loginFactory', [])
 				console.log(response)
 				
 				console.log('response');
+				$location.path('/my-orders');
 		   }, function (error) {
 			   console.log(error);
 		   });

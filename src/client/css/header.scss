@@ -1,0 +1,30 @@
+.header {
+	background-color: #fbc733;
+	position: fixed;
+	left: 0px;
+	top:0px;
+	width: 100%;
+	z-index: 1234;
+	max-height: 100px;
+	padding-top: 10px;
+	.logo-img {
+		img {max-width: 280px;}
+	}
+	ul.mobile-bredcumb {
+	    background-color: #fff;
+	    border-bottom: thin solid #00a0e3;
+	    padding: 5px;
+	 	margin-top: 10px;
+	}
+
+	ul.mobile-bredcumb > li+li:before {
+	    content: "|\00a0";
+	    margin-left: -5px;
+	    margin-right: 3px;
+	}
+	.log-out-btn{
+		position: relative;
+		right: 25px;
+		top: 20px;
+	}
+}

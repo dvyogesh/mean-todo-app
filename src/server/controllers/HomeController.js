@@ -54,6 +54,7 @@ function saveNewUser(req, res, userDetails) {
   newUser.user = userDetails.user;
   newUser.email = userDetails.email;
   newUser.phoneNumber = userDetails.phoneNumber;
+  newUser.prescriptionText = userDetails.prescriptionText;
   newUser.save(function( saveErr, saveUser){
     if (saveErr) {res.status(HttpStatus.OK).json({"message":"err in new user"});}
     saveOrderData(req, res, userDetails, 'new');
@@ -64,17 +65,21 @@ function saveNewUser(req, res, userDetails) {
 function saveOrderData(req, res, userDetails, typeUser) {
     var newOrder = new Orders;
     newOrder.user = userDetails.user;
-
+    if (!userDetails.prescriptionText === '') {
+      newOrder.prescriptionText = userDetails.prescriptionText;
+    }
+    
     req.files.forEach(function(file){
       fs.readFile(file.path, 'binary', function (dataErr, data) {
 
         //fs.writeFile('image_orig.png', original_data, 'binary', function(err) {});
-           var base64Image = new Buffer(data, 'binary').toString('base64');
+           var toBase64Image = new Buffer(data, 'binary');
+           var base64Image = toBase64Image.toString('base64');
            console.log('base64Image');
-           console.log(base64Image);
+           //console.log(base64Image);
         if(data) {
-          console.log('data');
-          console.log(data);
+          // console.log('data');
+          // console.log(data);
          newOrder.prescriptionImages.push({
             image : data,
             fileName : file.originalname,

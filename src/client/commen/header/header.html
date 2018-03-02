@@ -1,8 +1,27 @@
-<div class="text-center">
-	<h1>I am header</h1>
-	<div>
+<div class="header">
+	<div class="logo-img text-center">
+		<img src="//gohomoeo.com/images/GoNameLogo.svg" />
 		<span class="pull-right color-link" >
-			<a href="logout" class="nav-link" onClick="localStorage.removeItem('userEmail');">Logout</a>
+			<button
+				type="button"
+				class="btn btn-default btn-sm log-out-btn"
+				onClick="localStorage.removeItem('userEmail');">
+        <span class="glyphicon glyphicon-off"></span>
+        <span class="hidden-xs">Log Off</span> 
+      </button>
 		</span>
+	</div>
+	<div class="header-bottom">
+		<div class="bredcub">
+      <ul class="list-inline text-center mobile-bredcumb">
+    		<li class="active">
+    		    <a href="index.html">Home</a>
+    		</li>
+            <li><a href="//blog.gohomoeo.com">Updates</a></li>
+    		<li><a href="gallery.html">Go Store</a></li>
+    		<li><a href="cases.html">Cases</a></li>
+    		<li><a href="about.html">About Us </a></li>
+    	</ul>
+		</div>
 	</div>
 </div>

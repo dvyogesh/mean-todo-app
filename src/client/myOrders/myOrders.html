@@ -13,13 +13,14 @@
 				<div class="row my-order-list-inner">
 					<div class="col-sm-3">
 						<p><b>OrderId: {{orders._id}}</b></p>
-						<div class="ordered-img text-center">
-							<div ng-if="!orders.prescriptionImages || orders.prescriptionImages == ''" 
+						<div class="prescription-txt text-center">
+							<div
+							ng-if="!orders.prescriptionImages.length > 0 && !orders.prescriptionText == ''" 
 								class="order-text">
-							  <p>{{orders.prescriptionImages[0].base64Image}}</p>
+							  <p>{{orders.prescriptionText}}</p>
 							</div>
 							<div
-							ng-if="orders.prescriptionImages || !orders.prescriptionImages == ''" >
+							ng-if="orders.prescriptionImages.length > 0 " >
 								<div class="order-img" 
 								style="background-image: url(data:image/jpeg;base64,{{orders.prescriptionImages[0].base64Image}});">
 								</div>

@@ -44,7 +44,10 @@ const myOrdersFactory = angular.module('app.myOrdersFactory', [])
 			   url: '/logout'
 			 }).then(function (response) {
 			 	//localStorage.removeItem("userEmail");
-			 	
+			 	if (response) {
+			 		$location.path('/');
+			 	}
+			 	//$location.path('/');
 			 })
 	};
 
